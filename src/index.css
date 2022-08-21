@@ -7,7 +7,7 @@
     font-family: "Poppins", sans-serif;
 }
 
-.banner {
+.banner, .banner-2 {
     position: relative;
     height: 50vh;
     width: 100%;
@@ -27,6 +27,18 @@
     background-color: rgb(16, 16, 32);
     opacity: 0.9;
 }
+.banner-2::before {
+    content: "";
+    background-image: url("https://images.unsplash.com/photo-1517737528656-b04c0992516a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGRhcmslMjByZXN0YXVyYW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60");
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgb(16, 16, 32);
+    opacity: 0.9;
+}
 .banner-title {
     font-family: "DynaPuff", cursive;
 }
@@ -35,4 +47,10 @@
     color: #ffffff;
     line-height: 0.9;
     text-align: center;
+}
+
+@media screen and (max-width: 720px) {
+    .banner, .banner-2 {
+        height: 30vh;
+    }
 }
