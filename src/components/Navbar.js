@@ -2,41 +2,23 @@
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import {
-  ChartBarIcon,
-  CursorClickIcon,
   MenuIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-  ViewGridIcon,
   XIcon,
 } from '@heroicons/react/outline'
+import { Link } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const solutions = [
   {
-    name: 'Analytics',
-    description: 'Get a better understanding of where your traffic is coming from.',
-    href: '#',
-    icon: ChartBarIcon,
+    name: 'Add Restaurant',
+    href: '/add-restaurant',
+    icon: ['fas', 'utensils'],
   },
   {
-    name: 'Engagement',
-    description: 'Speak directly to your customers in a more meaningful way.',
-    href: '#',
-    icon: CursorClickIcon,
-  },
-  { name: 'Security', description: "Your customers' data will be safe and secure.", href: '#', icon: ShieldCheckIcon },
-  {
-    name: 'Integrations',
-    description: "Connect with third-party tools that you're already using.",
-    href: '#',
-    icon: ViewGridIcon,
-  },
-  {
-    name: 'Automations',
-    description: 'Build strategic funnels that will drive your customers to convert',
-    href: '#',
-    icon: RefreshIcon,
-  },
+    name: 'Api Docs',
+    href: '/',
+    icon: ['fas', 'book'],
+  }
 ]
 
 export default function Navbar() {
@@ -61,12 +43,16 @@ export default function Navbar() {
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
-            <button className="text-base font-medium text-gray-500 hover:text-gray-900">
-              Add Restaurant
-            </button>
-            <button className="text-base font-medium text-gray-500 hover:text-gray-900">
-              Api Docs
-            </button>
+          {solutions.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={`${item.href}`}
+                      className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
+                    >
+                      <FontAwesomeIcon icon={item.icon} className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
+                      <span className="ml-3 text-base font-medium text-gray-900">{item.name}</span>
+                    </Link>
+                  ))}
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <button className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
@@ -111,14 +97,14 @@ export default function Navbar() {
               <div className="mt-6">
                 <nav className="grid gap-y-8">
                   {solutions.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={`${item.href}`}
                       className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
                     >
-                      <item.icon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
+                      <FontAwesomeIcon icon={item.icon} className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
                       <span className="ml-3 text-base font-medium text-gray-900">{item.name}</span>
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
