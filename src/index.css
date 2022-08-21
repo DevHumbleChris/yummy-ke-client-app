@@ -49,8 +49,35 @@
     text-align: center;
 }
 
-@media screen and (max-width: 720px) {
+.scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 10px;
+    border: 1px solid #f6f7ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
+}
+
+@media screen and (max-width: 640px) {
     .banner, .banner-2 {
         height: 30vh;
+    }
+    .scrollbar::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+    .scrollbar {
+        height: 20rem;
     }
 }
