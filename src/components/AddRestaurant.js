@@ -2,52 +2,35 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AddRestaurant() {
-  const [restaurantName, setRestaurantName] = useState('')
-  const [category, setCategory] = useState('')
-  const [averageCost, setAverageCost] = useState('')
-  const [cuisines, setCuisines] = useState([])
-  const [singleCusine, setSingleCusine] = useState('')
-  const [popularDishes, setPopularDishes] = useState([])
-  const [dish, setDish] = useState('')
-  const [facilities, setFacilities] = useState([])
-  const [singleFacility, setSingleFacility] = useState('')
+  const [restaurantName, setRestaurantName] = useState("");
+  const [category, setCategory] = useState("");
+  const [dish, setDish] = useState({
+    name: "",
+    price: 0,
+    image: null,
+    preview: null
+  });
+  const [popularDishes, setPopularDishes] = useState([]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e)
+    console.log(e);
   };
-  const addFacilities = () => {
-    setFacilities([
-      ...facilities,
-      singleFacility
-    ])
-    setSingleFacility('')
-  }
-  const removeFacilities = (itemFacility) => {
-    const newFacilities = facilities.filter(facility => facility !== itemFacility)
-    setFacilities(newFacilities)
-  }
-  const addDishes = () => {
-    setPopularDishes([
-      ...popularDishes,
-      dish
-    ])
-    setDish('')
-  }
-  const removeDishes = (dishItem) => {
-    const newPopularDishes = popularDishes.filter(popularDish => popularDish !== dishItem)
-    setPopularDishes(newPopularDishes)
-  }
-  const addCuisines = () => {
-    setCuisines([
-      ...cuisines,
-      singleCusine
-    ])
-    setSingleCusine('')
-  }
-  const removeCuisine = (item) => {
-    const newCusines = cuisines.filter(cuisine => cuisine !== item)
-    setCuisines(newCusines)
-  }
+  const uploadDishPhoto = (e) => {
+    setDish({
+      ...dish,
+      image: e.target.files[0],
+      preview: URL.createObjectURL(e.target.files[0])
+    });
+  };
+  const addPopularDish = () => {
+    setPopularDishes([...popularDishes, dish]);
+    setDish({
+      name: "",
+      price: 0,
+      image: null,
+      preview: null
+    });
+  };
   return (
     <section>
       <div className="p-8 flex flex-wrap justify-center">
@@ -71,12 +54,13 @@ export default function AddRestaurant() {
                         type="text"
                         name="restaurantName"
                         id="restaurant-name"
+                        placeholder="e.g Taco Bell"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         value={restaurantName}
                         onChange={(e) => setRestaurantName(e.target.value)}
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-3">
+                    <div className="col-span-6">
                       <label
                         htmlFor="category"
                         className="block text-sm font-medium text-gray-700"
@@ -90,26 +74,12 @@ export default function AddRestaurant() {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                       >
-                        <option value="Delivery">Delivery</option>
-                        <option value="Dining Out">Dining Out</option>
-                        <option value="Nighlife">Nightlife</option>
+                        <option value="Burgers">Burgers</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Mexican">Mexican</option>
                       </select>
-                    </div>
-                    <div className="col-span-6 sm:col-span-3">
-                      <label
-                        htmlFor="average-cost"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Average Cost
-                      </label>
-                      <input
-                        type="number"
-                        name="averageCost"
-                        id="average-cost"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        value={averageCost}
-                        onChange={(e) => setAverageCost(e.target.value)}
-                      />
                     </div>
                     <div className="col-span-6">
                       <label className="block text-sm font-medium text-gray-700">
@@ -154,129 +124,103 @@ export default function AddRestaurant() {
                     </div>
                     <div className="col-span-6">
                       <label
-                        htmlFor="cuisines"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Cuisines
-                      </label>
-                      {cuisines.map((item, i) => (
-                        <div className="flex items-center justify-between" key={i}>
-                        <input
-                          type="text"
-                          name="cuisines"
-                          id="cuisines"
-                          value={item}
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          readOnly={true}
-                        />
-                        <button
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ml-3"
-                          onClick={() => removeCuisine(item)}
-                        >
-                          <FontAwesomeIcon icon={["fas", "minus"]} />
-                        </button>
-                      </div>
-                      ))}
-                      <div className="flex items-center justify-between">
-                        <input
-                          type="text"
-                          name="singleCusine"
-                          id="cuisines"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          value={singleCusine}
-                          onChange={(e) => setSingleCusine(e.target.value)}
-                        />
-                        <button
-                          className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-3 ${!singleCusine ? "bg-indigo-300": "bg-indigo-600"}`}
-                          onClick={addCuisines}
-                          disabled={!singleCusine}
-                        >
-                          <FontAwesomeIcon icon={["fas", "add"]} />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-span-6">
-                      <label
                         htmlFor="popular_dishes"
                         className="block text-sm font-medium text-gray-700"
                       >
                         Popular Dishes
                       </label>
-                      {popularDishes.map((dishItem, i) => (
-                        <div className="flex items-center justify-between" key={i}>
+                      {popularDishes.map((popularDish, i) => {
+                        return (
+                          <div key={i} className="my-3 flex justify-between border-2 border-dashed border-gray-300 p-2 rounded-xl">
+                            <div className="w-16 h-12 rounded-xl">
+                            <img src={`${popularDish.preview}`} alt={popularDish.name} className="w-full object-contain" />
+                            </div>
+                            <div>
+                              <h2 >{popularDish.name}</h2>
+                              <p className="text-sm text-gray-400">{popularDish.price}</p>
+                            </div>
+                            <button type="button">
+                            <FontAwesomeIcon icon={['fas', 'close']} className="text-3xl mt-2 text-red-600" />
+                            </button>
+                          </div>
+                        )
+                      })}
+                      <div>
                         <input
                           type="text"
                           name="popularDishes"
                           id="popular_dishes"
-                          value={dishItem}
+                          placeholder="e.g. Crunchy Taco"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          readOnly={true}
+                          value={dish.name}
+                          onChange={(e) =>
+                            setDish({ ...dish, name: e.target.value })
+                          }
                         />
-                        <button
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ml-3"
-                          onClick={() => removeDishes(dishItem)}
-                        >
-                          <FontAwesomeIcon icon={["fas", "minus"]} />
-                        </button>
-                      </div>
-                      ))}
-                      <div className="flex items-center justify-between">
+                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mt-2 mb-2">
+                          <div className="space-y-1 text-center">
+                            <p className="text-xs text-gray-500">
+                              Upload the dish photo.
+                            </p>
+                            <svg
+                              className="mx-auto h-12 w-12 text-gray-400"
+                              stroke="currentColor"
+                              fill="none"
+                              viewBox="0 0 48 48"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                strokeWidth={2}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                            <div className="flex text-sm text-gray-600">
+                              <label
+                                htmlFor="file-upload-dish"
+                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                              >
+                                <span>Upload a file</span>
+                                <input
+                                  id="file-upload-dish"
+                                  name="file-upload-dish"
+                                  type="file"
+                                  className="sr-only"
+                                  onChange={(e) => uploadDishPhoto(e)}
+                                />
+                              </label>
+                              <p className="pl-1">or drag and drop</p>
+                            </div>
+                            <p className="text-xs text-gray-500">
+                              PNG, JPG, GIF up to 10MB
+                            </p>
+                          </div>
+                        </div>
                         <input
-                          type="text"
+                          type="number"
                           name="popularDishes"
                           id="popular_dishes"
+                          placeholder="e.g. $200"
+                          value={dish.price}
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          value={dish}
-                          onChange={(e) => setDish(e.target.value)}
+                          onChange={(e) =>
+                            setDish({
+                              ...dish,
+                              price: parseInt(e.target.value),
+                            })
+                          }
                         />
                         <button
-                          className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-3 ${!dish ? "bg-indigo-300": "bg-indigo-600"}`}
-                          onClick={addDishes}
-                          disabled={!dish}
+                          type="button"
+                          className={`inline-flex my-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full bg-indigo-600 items-center`}
+                          onClick={addPopularDish}
                         >
-                          <FontAwesomeIcon icon={["fas", "add"]} />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-span-6">
-                      <label
-                        htmlFor="facilities"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Facilities
-                      </label>
-                      {facilities.map((itemFacility, i) => (
-                        <div className="flex items-center justify-between" key={i}>
-                        <input
-                          type="text"
-                          name="facility"
-                          id="facilities"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          value={itemFacility}
-                          readOnly={true}
-                        />
-                        <button
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ml-3"
-                          onClick={() => removeFacilities(itemFacility)}
-                        >
-                          <FontAwesomeIcon icon={["fas", "minus"]} />
-                        </button>
-                      </div>
-                      ))}
-                      <div className="flex items-center justify-between">
-                        <input
-                          type="text"
-                          name="facilities"
-                          id="facilities"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          value={singleFacility}
-                          onChange={(e) => setSingleFacility(e.target.value)}
-                        />
-                        <button
-                          className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-3 ${!singleFacility ? "bg-indigo-300": "bg-indigo-600"}`}
-                          onClick={addFacilities}
-                        >
-                          <FontAwesomeIcon icon={["fas", "add"]} />
+                          <FontAwesomeIcon
+                            icon={["fas", "add"]}
+                            className="mx-2"
+                          />
+                          <span>Add Dish</span>
                         </button>
                       </div>
                     </div>
